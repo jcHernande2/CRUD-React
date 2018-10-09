@@ -3,7 +3,7 @@ import logo from '../logo.svg';
 class Navigation extends Component{
     render(){
         return(
-        <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+        <div class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
             <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
                 <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> React</a>
                 <ul class="navbar-nav bd-navbar-nav flex-row">
@@ -18,7 +18,7 @@ class Navigation extends Component{
                     </li>
                 </ul>
             </nav>
-        </header>
+        </div>
         );
     }
 }
