@@ -58,6 +58,14 @@ class App extends Component {
     })
     console.log(e.target.name.val);
    }
+   deleteCliente(id)
+   {
+    // fetch('/api/cliente/${id}');
+     // console.log("eliminado tarea"+ id);
+   }
+   editarCliente(){
+
+   }
   render() {
   
     return (
@@ -105,13 +113,13 @@ class App extends Component {
                   {
                     this.state.clientes.map(cliente=>{
                       return (
-                        <tr key={cliente.id}><td>{cliente.firstName}</td>
+                        <tr key={cliente._id}><td>{cliente.firstName}</td>
                         <td>{cliente.lastName}</td>
                         <td>
-                          <button><i className="material-icons">delete</i>
+                          <button onClick={()=>this.deleteCliente(cliente._id)}><i className="material-icons">delete</i>
                          
                           </button>
-                          <button style={{margin:'4px'}}><i className="material-icons">edit</i>
+                          <button onClick={this.editarCliente} style={{margin:'4px'}}><i className="material-icons">edit</i>
                          
                           </button>
 
