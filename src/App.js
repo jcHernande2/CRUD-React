@@ -64,9 +64,9 @@ class App extends Component {
       
       <div className="App">
       
-      <nav className='light-blue darken-4'>
+      <nav className='light-green darken-4'>
         <div className='container'>
-          <a className='brand-logo' href='/'>Clientes</a>
+          <a className='brand-logo' href='/'>Datos Clientes</a>
         </div>
       </nav>
      
