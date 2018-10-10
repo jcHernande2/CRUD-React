@@ -16,7 +16,7 @@
   "scripts": {
     "start": "node src/server/index.js",
     "dev": "nodemon src/server/index.js",
-    "webpack": "webpack --mode development"
+    "webpack": "webpack --mode development --watch"
    
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",

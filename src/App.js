@@ -1,15 +1,144 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import  Navigation from './components/Navigation';
+//import logo from './logo.svg';
+//import './App.css';
+//import  Navigation from './components/Navigation';
+/*
+ <Navigation>
+          </Navigation>
+*/
+class App extends Component {
+  constructor(){
+    super();
+    this.state={
+      firstName:'',
+      lastName:'',
+      clientes:[]
+    }
+    this.AddCliente=this.AddCliente.bind(this);
+    this.handleChange=this.handleChange.bind(this);
+  }
+   AddCliente(e){
+     fetch('/api/cliente',{
+       method:'POST',
+       body:JSON.stringify(this.state),
+       headers:{
+          'Accept':'application/json',
+          'Content-type':'application/json'
+       }
+       
+     }).then(res=>res.json())
+     .then(data=>{console.log(data)
+          M.toast({html:'tarea guardada'});
+          this.setState({firstName:'',lastName:''});
+          this.fetchClientes();
+        }
+     )
+     .catch(err=>console.log(err));
+     //console.log(this.state);
+     e.preventDefault();
+   }
+   componentDidMount(){
+     this.fetchClientes();
+    // console.log("el componente fue montado");
+   }
+   fetchClientes(){
+    fetch('/api/cliente')
+    .then(res=>res.json())
+    .then(data=>{
+      
+      this.setState({clientes:data});
+      console.log(clientes);
+    }
+    );
+   }
+   handleChange(e){
+    const {name,value}=e.target;
+    this.setState({
+      [name]:value
+    })
+    console.log(e.target.name.val);
+   }
+  render() {
+  
+    return (
+      
+      <div className="App">
+      
+      <nav className='light-blue darken-4'>
+        <div className='container'>
+          <a className='brand-logo' href='/'>Clientes</a>
+        </div>
+      </nav>
+     
+      <div className='container'>
+        <div className='row'>
+          <div class='col-s5'>
+            <div className='card-conten'>
+              <form onSubmit={this.AddCliente}>
+                <div className='row'>
+                  <div className='input-field col s12'>
+                    <input value={this.state.firstName} name="firstName"  onChange={this.handleChange} type='text'  placeholder='firstName'/>
+                  </div>
+                </div>
+                <div className='row'>
+                  <div className='input-field col s12'>
+                    <input value={this.state.lastName} name="lastName" onChange={this.handleChange} type='text'  placeholder='lastName'/>
+                  </div>
+                </div>
+                <button type='submit' className='btn btn-blue'>Enviar</button>
+              </form>
+            </div>
+          </div>
+          <div class='col-s7'>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    first Name
+                  </th>
+                  <th>
+                    last Name
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                  {
+                    this.state.clientes.map(cliente=>{
+                      return (
+                        <tr key={cliente.id}><td>{cliente.firstName}</td>
+                        <td>{cliente.lastName}</td>
+                        <td>
+                          <button><i className="material-icons">delete</i>
+                         
+                          </button>
+                          <button style={{margin:'4px'}}><i className="material-icons">edit</i>
+                         
+                          </button>
+
+                        </td>
+                        </tr>
+                      )
+                    }
+                    )
+                  }
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+      </div>
+    )
+  }
+}
+/*
 class App extends Component {
   render() {
     return (
       
        <div className="App">
        
-          <Navigation>
-          </Navigation>
+         
      
      
           
@@ -102,5 +231,5 @@ class App extends Component {
     );
   }
 }
-
+*/
 export default App;
