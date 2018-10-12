@@ -12,28 +12,47 @@ class App extends Component {
     this.state={
       firstName:'',
       lastName:'',
-      clientes:[]
+      clientes:[],
+      _id:''
     }
     this.AddCliente=this.AddCliente.bind(this);
     this.handleChange=this.handleChange.bind(this);
   }
    AddCliente(e){
-     fetch('/api/cliente',{
-       method:'POST',
-       body:JSON.stringify(this.state),
-       headers:{
-          'Accept':'application/json',
-          'Content-type':'application/json'
-       }
-       
-     }).then(res=>res.json())
-     .then(data=>{console.log(data)
-          M.toast({html:'tarea guardada'});
-          this.setState({firstName:'',lastName:''});
+     if(this.state._id)
+     {
+        fetch(`/api/cliente/${this.state._id}`,{
+          method:'PUT',
+          body:JSON.stringify(this.state),
+          headers:{
+              'Accept':'application/json',
+              'Content-type':'application/json'
+          }
+        }).then(res=>res.json())
+        .then(data=>{console.log(data)
+          M.toast({html:'cliente Actualizado'});
+          this.setState({_id:'',firstName:'',lastName:''});
           this.fetchClientes();
-        }
-     )
-     .catch(err=>console.log(err));
+        })
+        .catch(err=>console.log(err));
+     }else{
+        fetch('/api/cliente',{
+          method:'POST',
+          body:JSON.stringify(this.state),
+          headers:{
+              'Accept':'application/json',
+              'Content-type':'application/json'
+          }
+          
+        }).then(res=>res.json())
+        .then(data=>{console.log(data)
+              M.toast({html:'cliente guardada'});
+              this.setState({_id:'',firstName:'',lastName:''});
+              this.fetchClientes();
+            }
+        )
+        .catch(err=>console.log(err));
+      }
      //console.log(this.state);
      e.preventDefault();
    }
@@ -58,13 +77,39 @@ class App extends Component {
     })
     console.log(e.target.name.val);
    }
+   ///eliminar cliente
    deleteCliente(id)
    {
-    // fetch('/api/cliente/${id}');
-     // console.log("eliminado tarea"+ id);
+      //console.log("eliminado clientew"+ id);
+      //fetch('/api/cliente/'+id;
+      if(confirm("estas seguro de eliminar")){
+        fetch(`/api/cliente/${id}`,{
+          method:'DELETE',
+          headers:{
+            'Accept':'application/json',
+            'Content-type':'application/json'
+          }
+        }
+        ).then(res=>res.json())
+        .then(data=>{ M.toast({html:'cliente eliminado'});
+        this.setState({firstName:'',lastName:''});
+        this.fetchClientes()});
+          // console.log("eliminado tarea"+ id);
+      }
+   
    }
-   editarCliente(){
-
+   editarCliente(id){
+    fetch(`/api/cliente/${id}`)
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data);
+        this.setState({
+          firstName:data.firstName,
+          lastName:data.lastName,
+          _id:data._id
+        })
+      }
+    );
    }
   render() {
   
@@ -107,6 +152,9 @@ class App extends Component {
                   <th>
                     last Name
                   </th>
+                  <th>
+                    Acciones
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -119,7 +167,7 @@ class App extends Component {
                           <button onClick={()=>this.deleteCliente(cliente._id)}><i className="material-icons">delete</i>
                          
                           </button>
-                          <button onClick={this.editarCliente} style={{margin:'4px'}}><i className="material-icons">edit</i>
+                          <button onClick={()=>this.editarCliente(cliente._id)} style={{margin:'4px'}}><i className="material-icons">edit</i>
                          
                           </button>
 
